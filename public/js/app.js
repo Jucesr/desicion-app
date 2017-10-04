@@ -7,23 +7,20 @@ console.log('App.js is running');
 var app = {
   title: 'Desicion APP',
   subtitle: 'This app was made to learn React js',
-  options: ['One', 'Two']
+  options: []
 };
 
 function getOptions(options) {
   if (options.length > 0) return React.createElement(
     'ol',
     null,
-    React.createElement(
-      'li',
-      null,
-      options[0]
-    ),
-    React.createElement(
-      'li',
-      null,
-      options[1]
-    )
+    app.options.map(function (option) {
+      return React.createElement(
+        'li',
+        { key: option },
+        option
+      );
+    })
   );
   return React.createElement(
     'p',
@@ -32,21 +29,28 @@ function getOptions(options) {
   );
 }
 
-var template = React.createElement(
-  'div',
-  null,
-  React.createElement(
-    'h1',
-    null,
-    app.title
-  ),
-  app.subtitle && React.createElement(
-    'p',
-    null,
-    app.subtitle
-  ),
-  app.options && getOptions(app.options)
-);
+var onFormSubmit = function onFormSubmit(e) {
+  e.preventDefault();
+  var option = e.target.elements.option.value;
+
+  if (option) {
+    app.options.push(option);
+    e.target.elements.option.value = '';
+    renderOptions();
+  }
+};
+
+var removeAllOptions = function removeAllOptions(e) {
+  app.options = [];
+  renderOptions();
+};
+
+var onMakeDesicion = function onMakeDesicion() {
+  var randomNum = Math.floor(Math.random() * app.options.length);
+  var option = app.options[randomNum];
+  alert(option);
+};
+
 var user = {
   name: 'Julio',
   age: 23,
@@ -57,28 +61,48 @@ function getLocation() {
   return 'Unknown';
 }
 
-var newTemplate = React.createElement(
-  'div',
-  null,
-  React.createElement(
-    'h1',
-    null,
-    user.name
-  ),
-  React.createElement(
-    'p',
-    null,
-    'Age: ',
-    user.age
-  ),
-  React.createElement(
-    'p',
-    null,
-    'Location: ',
-    user.location
-  )
-);
-
 var appRoot = document.getElementById('app');
 
-ReactDOM.render(template, appRoot);
+var renderOptions = function renderOptions() {
+  var template = React.createElement(
+    'div',
+    null,
+    React.createElement(
+      'h1',
+      null,
+      app.title
+    ),
+    app.subtitle && React.createElement(
+      'p',
+      null,
+      app.subtitle
+    ),
+    React.createElement(
+      'button',
+      { disabled: app.options.length === 0, onClick: onMakeDesicion },
+      'What should I do? '
+    ),
+    React.createElement(
+      'button',
+      { onClick: removeAllOptions },
+      'Remove all'
+    ),
+    app.options && getOptions(app.options),
+    React.createElement(
+      'form',
+      { onSubmit: onFormSubmit },
+      React.createElement('input', { type: 'text', name: 'option' }),
+      React.createElement(
+        'button',
+        null,
+        'Add Option'
+      )
+    )
+  );
+
+  ReactDOM.render(template, appRoot);
+};
+
+renderOptions();
+
+//Just for scrolling
