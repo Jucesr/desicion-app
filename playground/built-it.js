@@ -1,36 +1,29 @@
-const app = {
-  title: 'Visibility Toogle',
-  info: 'This is some secret information',
-  buttonText: 'Hide Details',
-  buttonState: 0
-};
-
-const showDetails = (e) => {
-  if( app.buttonState == 0 ){
-    app.info = '';
-    app.buttonText = 'Show Details';
-    app.buttonState = 1;
-  }else{
-    app.info = 'This is some secret information';
-    app.buttonText = 'Hide Details';
-    app.buttonState = 0;
+class VisibilityToogle extends React.Component {
+  constructor(props){
+    super(props);
+    this.handleToogle = this.handleToogle.bind(this);
+    this.state = {
+      visibility : true
+    };
   }
 
-  render();
-};
+  handleToogle(){
+    this.setState( (prevState) => {
+      return {
+        visibility: !prevState.visibility
+      }
+    } );
+  }
 
-const render = () => {
-  const template = (
-    <div>
-      <h1>{app.title}</h1>
-      <button onClick={showDetails} > {app.buttonText} </button>
-      <p> {app.info} </p>
-    </div>
-  );
+  render(){
+    return (
+      <div>
+        <h1>Visibility Toogle</h1>
+        <button onClick={this.handleToogle}> {this.state.visibility ? 'Hide Details' : 'Show Details'}</button>
+        <p>{this.state.visibility ? this.props.toogleText : undefined}</p>
+      </div>
+    );
+  }
+}
 
-  const appRoot = document.getElementById('app');
-
-  ReactDOM.render(template, appRoot);
-};
-
-render();
+ReactDOM.render(<VisibilityToogle toogleText="Eat it"/>, document.getElementById('app'));
