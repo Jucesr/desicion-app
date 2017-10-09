@@ -1,5 +1,7 @@
-import { square, add } from './utils.js'
+import React from 'react';
+import ReactDom from 'react-dom';
+import IndesicionApp from './components/IndesicionApp';
+import 'normalize.css/normalize.css';
+import './styles/styles.scss';
 
-console.log('App.js is running');
-console.log(square(4));
-console.log(add(1,23));
+ReactDom.render(<IndesicionApp />, document.getElementById('app'));
