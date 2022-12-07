@@ -17,7 +17,7 @@
     "babel-preset-env": "^1.5.2",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.4",
-    "express": "^4.16.1",
+    "express": "^4.17.3",
     "js-yaml": "^3.13.1",
     "live-server": "^1.2.0",
     "node-sass": "^4.5.3",
